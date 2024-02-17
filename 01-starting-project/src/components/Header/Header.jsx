@@ -1,4 +1,7 @@
-import reactImg from '../assets/react-core-concepts.png';
+// does not scope it to this element
+// meaning it will also apply to other components
+import "./Header.css"; 
+import reactImg from '../../assets/react-core-concepts.png';
 
 function genRandomInt(max) {
     return Math.floor(Math.random() * (max + 1));
