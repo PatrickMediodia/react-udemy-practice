@@ -13,15 +13,17 @@ export default function Player({ initialName, symbol }) {
     }
 
     const handleChange = (e) =>{
+        // e.target --> the element that triggered the event
         setPlayerName(e.target.value);
     }
 
     let editablePlayerName = <span className="player-name">{playerName}</span>
     if (isEditing) {
-        editablePlayerName = <input 
-            type="text" 
-            required value={playerName} 
-            onChange={handleChange}
+        editablePlayerName = 
+            <input 
+                type="text" 
+                required value={playerName} 
+                onChange={handleChange}
             />;
     }
     
