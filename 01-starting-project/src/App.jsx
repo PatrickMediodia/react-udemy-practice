@@ -28,6 +28,19 @@ function App() {
     console.log(dynamicContent);
   };
 
+  const tabContent = ({ title, description, code}) => { 
+    return (
+      <div id="tab-content">
+        <h3>{ title }</h3>
+        <p>{ description }</p>
+        <pre>
+          <code>
+            { code }
+          </code>
+        </pre>           
+      </div>
+    )};
+
   return (
     <div>
       <Header />
@@ -35,11 +48,15 @@ function App() {
         <section id='core-concepts'>
           <ul>
             {
+              /* another option */
+              /* CORE_CONCEPTS.map(concptItem => <CoreConcep {...conceptItem} />) */
+
               CORE_CONCEPTS.map(({ title, description, image }) => {
                 return <CoreConcept 
                   title={title} 
                   description={description}
                   image={image}
+                  key={title}
                 />
               })
             }
@@ -61,20 +78,7 @@ function App() {
               })
             }
           </menu>
-          { !displayString ? 
-            <p>Please select a topic.</p> : 
-            (
-              <div id="tab-content">
-                <h3>{ EXAMPLES[displayString].title }</h3>
-                <p>{ EXAMPLES[displayString].description }</p>
-                <pre>
-                  <code>
-                    { EXAMPLES[displayString].code }
-                  </code>
-                </pre>           
-              </div>
-            ) 
-          }
+          { !displayString ? <p>Please select a topic.</p> : tabContent(EXAMPLES[displayString]) }
         </section>
       </main>
     </div>
