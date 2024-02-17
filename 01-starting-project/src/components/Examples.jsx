@@ -1,7 +1,8 @@
 // react hooks
 import { useState } from 'react';
 import { EXAMPLES } from '../data';
-import TabButton from '../components/TabButton/TabButton';
+import Section from './Section';
+import TabButton from './TabButton/TabButton';
 
 export default function Examples() {
     // 1. hooks can only be called inside of component funcitons
@@ -21,7 +22,7 @@ export default function Examples() {
         // therefore if you log the dynamic content now, it will still show the old state
         // console.log(dynamicContent);
     };
-
+    
     const tabContent = ({ title, description, code}) => { 
         return (
           <div id="tab-content">
@@ -35,29 +36,29 @@ export default function Examples() {
           </div>
         )
     };
-
+    
     return (
-        <section id="examples">
-        <h2>Examples</h2>
-        <menu>
-        {
-            /* will not be executed immediately since it is inside an arrow function */
-            /* therefore we can pass parameters to the function */
-            tabs.map((tab) => {
-            return (
-                <TabButton 
-                    onClickHandler={() => handleClick(tab)} 
-                    isSelected={ selectedTopic === tab } >
-                {tab}
-                </TabButton>
-            )})
-        }
-        </menu>
-        {
-            !selectedTopic ? 
-                <p>Please select a topic.</p> 
-                : tabContent(EXAMPLES[selectedTopic]) 
-        }
-        </section>
+        <Section id="examples" title="examples">
+            <menu>
+                {
+                    /* will not be executed immediately since it is inside an arrow function */
+                    /* therefore we can pass parameters to the function */
+                    tabs.map((tab) => {
+                        return (
+                            <TabButton 
+                                onClick={() => handleClick(tab)} 
+                                isSelected={ selectedTopic === tab }
+                            >
+                                {tab}
+                            </TabButton>
+                    )})
+                }
+            </menu>
+            {
+                !selectedTopic ? 
+                    <p>Please select a topic.</p> 
+                    : tabContent(EXAMPLES[selectedTopic]) 
+            }
+        </Section>
     );
 }
