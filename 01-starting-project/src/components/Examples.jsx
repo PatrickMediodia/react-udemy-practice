@@ -1,6 +1,8 @@
 // react hooks
 import { useState } from 'react';
 import { EXAMPLES } from '../data';
+
+import Tabs from './Tabs';
 import Section from './Section';
 import TabButton from './TabButton/TabButton';
 
@@ -15,50 +17,43 @@ export default function Examples() {
     const [ selectedTopic, setSelectedTopic ] = useState();
     const tabs = ['components', 'jsx', 'props', 'state']
 
-    const handleClick = (dynamicContent) => {
-        setSelectedTopic(dynamicContent);
-    
+    const handleClick = (selected) => {
+        setSelectedTopic(selected);
+
         // react schedules the update of the state afte it has been re-rendered
         // therefore if you log the dynamic content now, it will still show the old state
         // console.log(dynamicContent);
     };
-    
+
+    const tabMessage = <p>Please select a topic.</p>;
+
     const tabContent = ({ title, description, code}) => { 
         return (
           <div id="tab-content">
-            <h3>{ title }</h3>
-            <p>{ description }</p>
+            <h3>{title}</h3>
+            <p>{description}</p>
             <pre>
-              <code>
-                { code }
-              </code>
+              <code>{code}</code>
             </pre>           
           </div>
         )
     };
     
+    const tabButtons = tabs.map((tab) => {
+        return (
+            <TabButton 
+                onClick={() => handleClick(tab)} 
+                isSelected={ selectedTopic === tab } >
+                {tab}
+            </TabButton>
+        )}
+    );
+
     return (
         <Section id="examples" title="examples">
-            <menu>
-                {
-                    /* will not be executed immediately since it is inside an arrow function */
-                    /* therefore we can pass parameters to the function */
-                    tabs.map((tab) => {
-                        return (
-                            <TabButton 
-                                onClick={() => handleClick(tab)} 
-                                isSelected={ selectedTopic === tab }
-                            >
-                                {tab}
-                            </TabButton>
-                    )})
-                }
-            </menu>
-            {
-                !selectedTopic ? 
-                    <p>Please select a topic.</p> 
-                    : tabContent(EXAMPLES[selectedTopic]) 
-            }
+            <Tabs buttons={tabButtons}>
+                { !selectedTopic ? tabMessage : tabContent(EXAMPLES[selectedTopic]) }
+            </Tabs>
         </Section>
     );
 }

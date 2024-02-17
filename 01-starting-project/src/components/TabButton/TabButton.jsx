@@ -4,8 +4,7 @@ export default function TabButton({ children, isSelected, ...props}) {
         <li>
             <button 
                 className={isSelected ? 'active' : ''} 
-                {...props}
-            >
+                {...props} >
                 {children}
             </button>
         </li>
