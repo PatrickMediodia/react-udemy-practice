@@ -38,12 +38,13 @@ export default function Examples() {
           </div>
         )
     };
-    
+
     const tabButtons = tabs.map((tab) => {
         return (
             <TabButton 
                 onClick={() => handleClick(tab)} 
-                isSelected={ selectedTopic === tab } >
+                isSelected={ selectedTopic === tab }
+            >
                 {tab}
             </TabButton>
         )}
@@ -51,7 +52,10 @@ export default function Examples() {
 
     return (
         <Section id="examples" title="examples">
-            <Tabs buttons={tabButtons}>
+            <Tabs 
+                buttons={tabButtons}
+                //buttonsContainer="menu" // not neede anymore since we made it a default value
+            >
                 { !selectedTopic ? tabMessage : tabContent(EXAMPLES[selectedTopic]) }
             </Tabs>
         </Section>
