@@ -28,18 +28,6 @@ function App() {
     console.log(dynamicContent);
   };
 
-  const tabContent = (
-    <div id="tab-content">
-      <h3>{ EXAMPLES[displayString].title }</h3>
-      <p>{ EXAMPLES[displayString].description }</p>
-      <pre>
-        <code>
-          { EXAMPLES[displayString].code }
-        </code>
-      </pre>           
-    </div>
-  );
-
   return (
     <div>
       <Header />
@@ -47,11 +35,11 @@ function App() {
         <section id='core-concepts'>
           <ul>
             {
-              CORE_CONCEPTS.map(({title, description, image}) => {
+              CORE_CONCEPTS.map(({ title, description, image }) => {
                 return <CoreConcept 
-                title={title} 
-                description={description}
-                image={image}
+                  title={title} 
+                  description={description}
+                  image={image}
                 />
               })
             }
@@ -64,11 +52,29 @@ function App() {
               /* will not be executed immediately since it is inside an arrow function */
               /* therefore we can pass parameters to the function */
               tabs.map((tab) => {
-                return <TabButton onClickHandler={() => handleClick(tab) }>{tab}</TabButton>
+                return <TabButton 
+                  onClickHandler={() => handleClick(tab)} 
+                  isSelected={ displayString === tab }
+                >
+                  {tab}
+                </TabButton>
               })
             }
           </menu>
-          { !displayString ?  <p>Please select a topic.</p> : tabContent }
+          { !displayString ? 
+            <p>Please select a topic.</p> : 
+            (
+              <div id="tab-content">
+                <h3>{ EXAMPLES[displayString].title }</h3>
+                <p>{ EXAMPLES[displayString].description }</p>
+                <pre>
+                  <code>
+                    { EXAMPLES[displayString].code }
+                  </code>
+                </pre>           
+              </div>
+            ) 
+          }
         </section>
       </main>
     </div>

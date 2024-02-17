@@ -1,8 +1,13 @@
 // children is what is being passed inside the component closing tags
-export default function TabButton({ children, onClickHandler }) {
+export default function TabButton({ children, onClickHandler, isSelected }) {
     return(
         <li>
-            <button onClick={onClickHandler}>{children}</button>
+            <button 
+                className={isSelected ? 'active' : ''} 
+                onClick={onClickHandler}
+            >
+                {children}
+            </button>
         </li>
     );
 }
