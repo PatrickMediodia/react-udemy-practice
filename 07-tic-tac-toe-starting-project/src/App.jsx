@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Log from "./components/Log";
 import Player from "./components/Player"
+import GameOver from "./components/GameOver";
 import GameBoard from "./components/GameBoard"
 import { WINNING_COMBINATIONS } from "./winning-combinations";
 
@@ -11,6 +12,8 @@ const initialGameBoard =  [
 ];
 
 function App() {
+  // single source of truth, and all the other logic is derived from this state
+  // therefore to restart the game, we just have to reset the gameTurns state
   const [ gameTurns, setGameTurns ] = useState([]);
 
   // derive from current game state rather than storring it in another state
@@ -23,11 +26,15 @@ function App() {
   }
 
   const activePlayer = deriveActivePlayer(gameTurns); 
-
+  
   // update the game board based on the turns data
   // in react you should try to manage less state as possible
   // rather, you should derive data from that state
-  let gameBoard = initialGameBoard;
+
+  // make a deep copy because arrays are referenced
+  // if not, initial game board will be overwrritten
+  let gameBoard = [...initialGameBoard.map(array => [...array])];
+
   for (const turn of gameTurns) {
       // destructure object values
       const { square, player } = turn;
@@ -55,6 +62,8 @@ function App() {
     }
   }
 
+  const hasDraw = gameTurns.length === 9 && !winner;
+
   const handleSelect = (rowIndex, colIndex) => {
     setGameTurns(prevTurns => {
       const currentPlayer = deriveActivePlayer(prevTurns);
@@ -75,6 +84,10 @@ function App() {
     })
   }
 
+  function handleRestart() {
+    setGameTurns([]);
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -90,8 +103,8 @@ function App() {
             isActive={activePlayer === 'O'} 
           />
         </ol>
-        {winner && <p>You won, {winner}!</p>}
-        <GameBoard 
+        {(winner || hasDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
+        <GameBoard
           onSelectSquare={handleSelect} 
           board={gameBoard}
         />
