@@ -1,33 +1,14 @@
-import { useState } from "react";
-
-const initialState = {
-    initialInvestment : 10000,
-    annualInvestment : 1000,
-    expectedReturn : 3,
-    duration : 10,
-}
-
-export default function UserInput() {
-    const [ userInput , setUserInput ] = useState(initialState);
-
-    function handleChange(identifier, newValue) {
-        setUserInput((prevState) => {
-            return {
-                ...prevState,
-                [identifier]: newValue,
-            }
-        });
-    }
-    
+export default function UserInput({ userInput, handleChange }) {
     return (
         <section id='user-input'>
             <div className="input-group">
                 <p>
                     <label>Initial Investment</label>
                     <input 
-                        type="number" 
+                        type="number"
+                        min="0"
                         required
-                        value={userInput['initialInvestment']}
+                        value={userInput.initialInvestment}
                         onChange={(e)=> handleChange('initialInvestment', e.target.value)}
                     />
                 </p>
@@ -35,8 +16,9 @@ export default function UserInput() {
                     <label>Annual Investment</label>
                     <input 
                         type="number" 
+                        min="0"
                         required
-                        value={userInput['annualInvestment']}
+                        value={userInput.annualInvestment}
                         onChange={(e)=> handleChange('annualInvestment', e.target.value)}
                     />
                 </p>
@@ -46,8 +28,9 @@ export default function UserInput() {
                     <label>Expected Return</label>
                     <input 
                         type="number" 
+                        min="0"
                         required 
-                        value={userInput['expectedReturn']}
+                        value={userInput.expectedReturn}
                         onChange={(e)=> handleChange('expectedReturn', e.target.value)}
                     />
                 </p>
@@ -55,8 +38,9 @@ export default function UserInput() {
                     <label>Duration</label>
                     <input 
                         type="number" 
+                        min="0"
                         required 
-                        value={userInput['duration']}
+                        value={userInput.duration}
                         onChange={(e)=> handleChange('duration', e.target.value)}
                     />
                 </p>
