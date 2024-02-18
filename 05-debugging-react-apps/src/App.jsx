@@ -11,12 +11,12 @@ function App() {
     expectedReturn: 6,
     duration: 10,
   });
-
+  
   function handleChange(inputIdentifier, newValue) {
     setUserInput((prevUserInput) => {
       return {
         ...prevUserInput,
-        [inputIdentifier]: newValue,
+        [inputIdentifier]: +newValue,
       };
     });
   }

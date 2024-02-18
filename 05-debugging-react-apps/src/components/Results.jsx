@@ -1,8 +1,9 @@
 import { calculateInvestmentResults, formatter } from '../util/investment.js';
 
-
 export default function Results({ input }) {
+  // a new array is being created everytime the Results component is re-rendered
   const results = [];
+
   calculateInvestmentResults(input, results);
 
   // guard clause
