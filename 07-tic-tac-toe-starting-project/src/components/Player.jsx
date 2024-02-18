@@ -1,17 +1,21 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol, isActive }) {
+export default function Player({ initialName, symbol, isActive, onChangeName }) {
     const [ playerName, setPlayerName ] = useState(initialName);
     const [ isEditing, setIsEditing ] = useState(false);
 
-    const editHandler = () => {
+    const editHandler = (e) => {
         // when updating state in react, do not do this
         // setIsEditing(!isEditing);
 
         // insted, pass a function to your state updating function
         setIsEditing(() => !isEditing);
-    }
 
+        if (isEditing) {
+            onChangeName(symbol, playerName);
+        }
+    }
+    
     const handleChange = (e) =>{
         // e.target --> the element that triggered the event
         setPlayerName(e.target.value);
@@ -26,7 +30,7 @@ export default function Player({ initialName, symbol, isActive }) {
                 onChange={handleChange}
             />;
     }
-    
+
     return (
         <li className={ isActive ? 'active' : undefined}>
             <span className="player">

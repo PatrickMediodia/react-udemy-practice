@@ -12,6 +12,11 @@ const initialGameBoard =  [
 ];
 
 function App() {
+  const [ players, setPlayers] = useState({
+    'X' : 'Player 1',
+    'O' : 'Player 2',
+  })
+
   // single source of truth, and all the other logic is derived from this state
   // therefore to restart the game, we just have to reset the gameTurns state
   const [ gameTurns, setGameTurns ] = useState([]);
@@ -20,13 +25,13 @@ function App() {
   function deriveActivePlayer(gameTurns) {
     let currentPlayer = 'X';
     if (gameTurns.length > 0 && gameTurns[0].player === 'X') {
-      currentPlayer = '0';
+      currentPlayer = 'O';
     }
     return currentPlayer;
   }
 
   const activePlayer = deriveActivePlayer(gameTurns); 
-  
+
   // update the game board based on the turns data
   // in react you should try to manage less state as possible
   // rather, you should derive data from that state
@@ -58,7 +63,7 @@ function App() {
       && firstSquareSymbol === secondSquareSymbol 
       && firstSquareSymbol === thirdSquareSymbol
     ) {
-      winner = firstSquareSymbol;
+      winner = players[firstSquareSymbol];
     }
   }
 
@@ -88,6 +93,16 @@ function App() {
     setGameTurns([]);
   }
 
+  function handlePlayerNameChange(symbol, newName) {
+    setPlayers( prevPlayers => {
+      // overwrite only the symbol that needs to be changed
+      return { 
+        [symbol]: newName, 
+        ...prevPlayers
+      }
+    });
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -95,12 +110,14 @@ function App() {
           <Player 
             initialName="Player 1" 
             symbol="X" 
-            isActive={activePlayer === 'X'} 
+            isActive={activePlayer === 'X'}
+            onChangeName={handlePlayerNameChange}
           />
           <Player 
             initialName="Player 2" 
             symbol="O" 
-            isActive={activePlayer === 'O'} 
+            isActive={activePlayer === 'O'}
+            onChangeName={handlePlayerNameChange}
           />
         </ol>
         {(winner || hasDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
